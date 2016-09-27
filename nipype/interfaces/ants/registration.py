@@ -735,6 +735,10 @@ class Registration(ANTSCommand):
     def _format_registration(self):
         retval = []
         for ii in range(len(self.inputs.transforms)):
+            if not len(self.inputs.number_of_iterations[ii]) == len(self.inputs.shrink_factors[ii]):
+                raise RuntimeError("number_of_iterations and shrink_factors should have the same number of levels.")
+            if not len(self.inputs.number_of_iterations[ii]) == len(self.inputs.smoothing_sigmas[ii]):
+                raise RuntimeError("number_of_iterations and smoothing_sigmas should have the same number of levels.")
             retval.append('--transform %s' % (self._format_transform(ii)))
             for metric in self._format_metric(ii):
                 retval.append('--metric %s' % metric)
